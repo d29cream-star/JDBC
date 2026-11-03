@@ -16,7 +16,7 @@ public class PlantView {
 			System.out.println("화초 관리 프로그램");
 			System.out.println("1. 화초 추가");
 			System.out.println("2. 전체 조회");
-			System.out.println("3.");
+			System.out.println("3. 화초 수정");
 			System.out.println("4.");
 			System.out.println("5. ");
 			System.out.println("0. 프로그램 종료");
@@ -26,6 +26,8 @@ public class PlantView {
 			switch(menu) {
 			case "1" : save();break;
 			case "2" : view(); break;
+			case "3" : edit(); break;
+			case "0" : sc.close(); return;
 			default: System.out.println("존재하지 않는 메뉴입니다.");
 			}
 		}
@@ -66,6 +68,24 @@ public class PlantView {
 			}
 		}
 		
+	}
+	private void edit() {
+		System.out.print("화초 수정 기능입니다.");
+		System.out.print("식물 번호를 입력해주세요.");
+		int plantNo = sc.nextInt();
+		sc.nextLine();
+		System.out.print("수정할 화초의 이름을 입력하세요.");
+		String plantName = sc.nextLine();
+		System.out.print("수정할 화초의 종류를 입력하세요.");
+		String plantType = sc.nextLine();
+		
+		int result = pc.edit(plantNo, plantName, plantType);
+		
+		if(result > 0) {
+			System.out.println("화초 정보를 변경하였습니다.");
+		}else {
+			System.out.println("화초 정보를 실패하였습니다.");
+		}
 	}
 	
 }

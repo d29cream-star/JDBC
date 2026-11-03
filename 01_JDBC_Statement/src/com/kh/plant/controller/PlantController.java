@@ -18,4 +18,10 @@ public class PlantController {
 	public List<HousePlantDto> view() {
 		return ps.view();
 	}
+	public int edit(int plantNo, String plantName, String plantType) {
+		HousePlantDto hpd =
+				new HousePlantDto(plantNo, plantType, plantName);
+		
+		return ps.edit(hpd);
+	}
 }

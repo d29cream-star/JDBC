@@ -15,4 +15,7 @@ public class PlantService {
 	public List<HousePlantDto> view() {
 		return new PlantDao().view();
 	}
+	public int edit(HousePlantDto hpd) {
+		return new PlantDao().edit(hpd);
+	}
 }

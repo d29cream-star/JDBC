@@ -26,16 +26,16 @@ public class PlantDao {
 		Statement stmt = null;
 		int result = 0;
 		
-		String sql = " INSERT  "
-					+ "	 INTO  "
+		String sql =  " INSERT  "
+					+ "   INTO  "
 					+ "			HOUSEPLANT	"
-					+ "VALUES	"
+					+ " VALUES	"
 					+ "			("
-					+ "			SEQ_PLANT_NO.NEXTVAL"
-					+ "		,  '"
-					+			hpd.getPlantType() +"'"
-					+ "     ,  '"
-					+			hpd.getPlantName() +"'"
+					+ 			" SEQ_PLANT_NO.NEXTVAL "
+					+ "		,  ' "
+					+			hpd.getPlantType() +"' "
+					+ "     ,  ' "
+					+			hpd.getPlantName() +"' "
 					+ "			)";
 			
 		try {
@@ -107,5 +107,28 @@ public class PlantDao {
 			}
 		}
 		return list; //조회된 결과물을 맵핑해놓은 dto 객체들의 주소값을 요소로 갖고 있는 List의 주소값을 반환
+	}
+	public int edit(HousePlantDto hpd) {
+	
+		int result = 0;
+		String sql = " UPDATE  "
+					+"		  HOUSEPLANT "
+					+"    SET  "
+					+"        PLANT_NAME = ' " 
+					+		  hpd.getPlantName() +" ' "
+					+"	   ,  PLANT_TYPE = ' "
+					+		  hpd.getPlantType() +" ' "
+					+"  WHERE  "
+					+" 		  PLANT_NO = "
+					+		  hpd.getPlantNo();
+		
+		try (Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@127.0.0.1:1521/XEPDB1", "HOSPITAL", "oracle");
+			 Statement stmt = conn.createStatement()){
+			 result = stmt.executeUpdate(sql);
+			 
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+				return result;
 	}
 }
