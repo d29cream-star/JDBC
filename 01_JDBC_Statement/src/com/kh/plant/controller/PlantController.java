@@ -24,4 +24,16 @@ public class PlantController {
 		
 		return ps.edit(hpd);
 	}
+	public int delete(int plantNo) {
+		return ps.delete(plantNo);
+	}
+	public HousePlantDto oneView(int plantNo) {
+		return ps.oneView(plantNo);
+	}
+	
+	public List<HousePlantDto> findByType(String keyword) {
+		
+		return ps.findByType(keyword);
+		
+	}
 }

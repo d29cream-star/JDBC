@@ -131,4 +131,93 @@ public class PlantDao {
 		}
 				return result;
 	}
+	public int delete(int plantNo) {
+		int result = 0;
+		
+		String sql = " DELETE  "
+				   + "	 FROM  "
+				   + "		   HOUSEPLANT"
+				   + "   WHERE"
+				   + "		   PLANT_NO  = ";
+		sql += plantNo;
+		
+		try(Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@127.0.0.1:1521/XEPDB1", "HOSPITAL", "oracle");
+			Statement stmt = conn.createStatement()){
+			result = stmt.executeUpdate(sql);
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	} 
+	public HousePlantDto oneView(int plantNo) {
+		
+		String sql = 
+							" SELECT "
+						   +"		   PLANT_NO "
+						   +"	     , PLANT_NAME "
+						   +"		 , PLANT_TYPE "
+						   +"   FROM "
+						   +"    	   HOUSEPLANT"
+						   +"   WHERE "
+						   +"  	       PLANT_no = " ;
+						
+		sql += plantNo;
+		HousePlantDto hpd = null;
+	
+		try (Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@127.0.0.1:1521/XEPDB1", "HOSPITAL", "oracle");
+				Statement stmt = conn.createStatement();
+				ResultSet rset = stmt.executeQuery(sql)){
+			if(rset.next()) {
+				hpd =  new HousePlantDto(
+									rset.getInt("PLANT_NO")
+							      , rset.getString("PLANT_TYPE")
+								  ,	rset.getString("PLANT_NAME"));
+				}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return hpd;
+	}
+		
+	public List<HousePlantDto> findByType(String keyword) {
+	
+		List<HousePlantDto> hpd = new ArrayList<>();
+		String sql =
+					" SELECT "
+				   +"		   PLANT_NO "
+				   +"	     , PLANT_NAME "
+				   +"		 , PLANT_TYPE "
+				   +"   FROM "
+				   +"    	   HOUSEPLANT "
+				   +"   WHERE "
+				   +"  	       PLANT_TYPE "
+				   + "		   LIKE		 '" 
+				   +"%"
+				   + keyword
+				   + "%'" 
+				   +"  ORDER "
+				   + "    BY "
+				   + "		   PLANT_NO ";
+		//System.out.println(sql);
+	
+		
+		try {Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@127.0.0.1:1521/XEPDB1", "HOSPITAL", "oracle");
+			Statement stmt = conn.createStatement();
+			ResultSet rset = stmt.executeQuery(sql);
+			
+			
+			while(rset.next()) {
+			hpd.add(new HousePlantDto(
+								  rset.getInt("PLANT_NO")
+								 ,rset.getString("PLANT_TYPE")
+								 ,rset.getString("PLANT_NAME") 
+								 ));
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+
+		}return hpd;
+	}
 }

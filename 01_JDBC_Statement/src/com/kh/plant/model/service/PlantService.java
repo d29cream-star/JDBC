@@ -18,4 +18,20 @@ public class PlantService {
 	public int edit(HousePlantDto hpd) {
 		return new PlantDao().edit(hpd);
 	}
+	public int delete(int plantNo) {
+		
+		if(plantNo < 1) {
+			throw new RuntimeException("식물번호는 1보다 작을 수 없습니다.");
+		}
+		
+		return new PlantDao().delete(plantNo);
+	}
+	public HousePlantDto oneView(int plantNo) {
+		
+		return new PlantDao().oneView(plantNo);
+	}
+	
+	public List<HousePlantDto> findByType(String keyword) {
+		return new PlantDao().findByType(keyword);
+	}
 }
