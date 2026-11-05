@@ -6,7 +6,7 @@
   <mapper namespace="plantMapper">
   
 	  <insert id="save"
-	  		  parameterType="com.kh.plant.model.dto.HousePlantDto">
+	  		  parameterType="plant">
 	  		INSERT
 	  		  INTO
 	  		       HOUSEPLANT
@@ -19,7 +19,7 @@
 	  </insert>
   
   	  <select id="view"
-  	  		  resultType="com.kh.plant.model.dto.HousePlantDto">
+  	  		  resultType="plant">
   	  		 
 			SELECT
 				    PLANT_NO plantNo
