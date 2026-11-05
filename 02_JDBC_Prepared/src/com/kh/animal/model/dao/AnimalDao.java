@@ -2,6 +2,7 @@ package com.kh.animal.model.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -20,11 +21,9 @@ public class AnimalDao {
 		}
 	}
 
-	public List<AnimalDto> read() {
-		Connection conn = null;
-		Statement stmt = null;
-		ResultSet rset = null;
-		List<AnimalDto> ad = new ArrayList<>();
+	public List<AnimalDto> read(Connection conn, String platnName) {
+	
+		List<AnimalDto> animals = new ArrayList<>();
 
 		String sql = """
 				SELECT
@@ -37,32 +36,16 @@ public class AnimalDao {
 				 		ANIMAL_NO ASC
 				 	""";
 
-		try {
-			conn = DriverManager.getConnection("jdbc:oracle:thin:@127.0.0.1:1521/ORCL", "JOANNA", "whdkssk1");
-			stmt = conn.createStatement();
-			rset = stmt.executeQuery(sql);
-
-			while (rset.next()) {
-				AnimalDto a = new AnimalDto();
-				a.setAnimalNo(rset.getInt("ANIMAL_NO"));
-				a.setAnimalName(rset.getString("ANIMAL_NAME"));
-
-				ad.add(a);
-			}
-			
-
+		try (PreparedStatement pstmt = conn.prepareStatement(sql);
+				ResultSet rset = pstmt.executeQuery()){
+			while (rset.next()){
+				ad
+				
+			 }
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
-			try {
-				rset.close();
-				stmt.close();
-				conn.close();
-			} catch (SQLException e) {
-
-			}
 		}
-		return ad;
+		return animals;
 
 	}
 	public int save(String animalName) {

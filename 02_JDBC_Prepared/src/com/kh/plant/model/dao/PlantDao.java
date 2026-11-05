@@ -103,12 +103,30 @@ public class PlantDao {
 			
 		}return result;
 	}
-	public int delete(Connection conn, int PlantNo) {
+	public int delete(Connection conn, int plantNo) {
 		int result = 0;
 		String sql = """
-					
-				
-				
+					DELETE
+					  FROM
+					  		HOUSEPLANT
+					 WHERE
+					 		PLANT_NO = ?				
 					 """;
+		try(PreparedStatement pstmt = conn.prepareStatement(sql)){
+			pstmt.setInt(1, plantNo);
+			result = pstmt.executeUpdate();
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	public HousePlantDto oneView(Connection conn, int plantNo) {
+		
+		
+		return result;
+	}
+	public List<HousePlantDto> findByType(Connection conn, String keyword){
+		
 	}
 }
