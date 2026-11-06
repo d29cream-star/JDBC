@@ -16,4 +16,18 @@ public class PlantDao {
 	public List<HousePlantDto> view(SqlSession session){
 		return session.selectList("plantMapper.view");
 	}
+	
+	public int edit(SqlSession session, HousePlantDto hpd) {
+		return session.update("plantMapper.edit", hpd);
+	}
+	public int delete(SqlSession session, int plantNo) {
+		return session.delete("plantMapper.delete", plantNo);
+		
+	}
+	public HousePlantDto oneView(SqlSession session, int plantNo) {
+		return session.selectOne("plantMapper.oneView", plantNo);
+	}
+	public List<HousePlantDto> findByType(SqlSession session, String keyword){
+		return session.selectList("plantMapper.findByType", keyword);
+	}
 }

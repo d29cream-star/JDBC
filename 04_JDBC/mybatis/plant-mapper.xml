@@ -5,6 +5,16 @@
   
   <mapper namespace="plantMapper">
   
+		<sql id="plantColumn">
+				SELECT
+					    PLANT_NO
+					 ,  PLANT_TYPE
+					 ,  PLANT_NAME
+				  FROM	
+				  		HOUSEPLANT
+		</sql>
+
+	
 	  <insert id="save"
 	  		  parameterType="plant">
 	  		INSERT
@@ -21,17 +31,57 @@
   	  <select id="view"
   	  		  resultType="plant">
   	  		 
-			SELECT
-				    PLANT_NO plantNo
-				 ,  PLANT_TYPE plantType
-				 ,  PLANT_NAME plantName
-			  FROM	
-			  		HOUSEPLANT
+		<include refid="plantColumn" />
 			 ORDER
 			 	BY
 			 		PLANT_NO	  
   	 
   	  </select>
+  	  
+  	  <update id="edit"
+  	  		  parameterType="plant">
+  	  		  UPDATE
+  	  		  		 HOUSEPLANT
+  	  		     SET
+  	  		    	 PLANT_NAME = #{plantName}
+  	  		       , PLANT_TYPE = #{plantType}
+  	  		   WHERE
+  	  		   		 PLANT_NO = #{plantNo}
+  	  		   		 
+  	  </update>
+  	  
+  	  <delete id="delete"
+  	  		  parameterType="_int">
+  	  		  DELETE
+  	  		    FROM
+  	  		   		 HOUSEPLANT 	  
+  	  		   WHERE
+  	  		  		 PLANT_NO = #{plantNo}
+  	  </delete>
+
+	
+
+	  <select id="oneView"
+			  resultType="plant"
+			  parameterType="_int">
+			<include refid="plantColumn" />
+			 WHERE
+			   		PLANT_NO = #{plantNo}  			
+	  </select>
+	  
+	  
+	  
+	  <select id="findByType"
+	    	  resultType="plant"
+	    	  parameterType="string">
+	  	  <include refid="plantColumn" />
+	  		   WHERE
+	  		   		 PLANT_TYPE LIKE '%'|| #{keyword} ||'%'
+	  		   ORDER
+	  		   	  BY
+	  		   	  	 PLANT_NO
+	  </select>
+	
 
   </mapper>
 
