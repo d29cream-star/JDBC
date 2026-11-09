@@ -3,86 +3,82 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
-  <mapper namespace="plantMapper">
-  
-		<sql id="plantColumn">
-				SELECT
-					    PLANT_NO
-					 ,  PLANT_TYPE
-					 ,  PLANT_NAME
-				  FROM	
-				  		HOUSEPLANT
-		</sql>
-
-	
-	  <insert id="save"
-	  		  parameterType="plant">
-	  		INSERT
-	  		  INTO
-	  		       HOUSEPLANT
-	  		VALUES
-	  			   (
-	  			   SEQ_PLANT_NO.NEXTVAL
-	  			  , #{plantType}
-	  			  , #{plantName}
-	  			  	)
-	  </insert>
-  
-  	  <select id="view"
-  	  		  resultType="plant">
-  	  		 
-		<include refid="plantColumn" />
-			 ORDER
-			 	BY
-			 		PLANT_NO	  
-  	 
-  	  </select>
-  	  
-  	  <update id="edit"
-  	  		  parameterType="plant">
-  	  		  UPDATE
-  	  		  		 HOUSEPLANT
-  	  		     SET
-  	  		    	 PLANT_NAME = #{plantName}
-  	  		       , PLANT_TYPE = #{plantType}
-  	  		   WHERE
-  	  		   		 PLANT_NO = #{plantNo}
-  	  		   		 
-  	  </update>
-  	  
-  	  <delete id="delete"
-  	  		  parameterType="_int">
-  	  		  DELETE
-  	  		    FROM
-  	  		   		 HOUSEPLANT 	  
-  	  		   WHERE
-  	  		  		 PLANT_NO = #{plantNo}
-  	  </delete>
-
-	
-
-	  <select id="oneView"
-			  resultType="plant"
-			  parameterType="_int">
-			<include refid="plantColumn" />
-			 WHERE
-			   		PLANT_NO = #{plantNo}  			
-	  </select>
-	  
-	  
-	  
-	  <select id="findByType"
-	    	  resultType="plant"
-	    	  parameterType="string">
-	  	  <include refid="plantColumn" />
-	  		   WHERE
-	  		   		 PLANT_TYPE LIKE '%'|| #{keyword} ||'%'
-	  		   ORDER
-	  		   	  BY
-	  		   	  	 PLANT_NO
-	  </select>
-	
-
+  <mapper namespace="foodMapper">
+  		<resultMap id="foodAndReviews"
+  				   type="com.kh.snackfood.model.dto.SnackFoodDto">
+  			<id column="FOOD_NO" property="foodNo" />
+  			<result column="FOOD_NAME" property="foodName" />
+  		  	<result column="PRICE" property="price" />
+  		  	<collection property="reviews" ofType="com.kh.snackfood.model.dto.FoodReviewDto">
+  		  		<id column="REVIEW_NO" property="reviewNo" />
+  		  		<result column="REVIEW_CONTENT" property="reviewContent"/>	
+  		   	</collection>
+  		</resultMap>
+  		  		
+  		<select id="selectFoodList"
+  				resultMap="foodAndReviews">
+  			SELECT
+  					FOOD_NO
+  				 ,	FOOD_NAME
+  				 ,	PRICE
+  				 , 	REVIEW_NO	
+  				 ,	REVIEW_CONTENT
+  			  FROM	
+  			  		SNACK_FOOD
+  			  LEFT
+  			  JOIN
+  			  		FOOD_REVIEW USING(FOOD_NO)
+  			 ORDER
+  			 	BY
+  			 		FOOD_NO DESC
+  		  		
+  		</select>
+  		
+  		<select id="selectByCondition"
+  				resultMap="foodAndReviews">
+  			SELECT
+  					FOOD_NAME
+  				 , 	CATEGORY
+  				 , 	REVIEW_WRITER
+  				 , 	REVIEW_CONTENT
+  			  FROM
+  			  		SNACK_FOOD
+  			  LEFT		
+  			  JOIN
+  			  		FOOD_REVIEW ON(SNACK_FOOD.FOOD_NO = FOOD_REVIEW.FOOD_NO)
+  			 WHERE
+  			 		<choose>
+  			 		  <when test="menuNo == 1">
+  			 		FOOD_NAME LIKE '%' || #{keyword} ||'%'
+  			 		  </when>
+  			 		  <when test="menuNo == 2"> 
+  			 		REVIEW_WRITER LIKE '%' || #{keyword} ||'%'
+  			 		  </when>
+  			 		  <when test="menuNo == 3">
+  			 		REVIEW_CONTENT LIKE '%' || #{keyword} ||'%'
+  					  </when>
+  					  <otherwise>
+  					  	SNACK_FOOD.FOOD_NAME OR 1 = 1 
+  					  </otherwise>
+  					</choose>
+  			 ORDER
+  			 	BY
+  			 		SNACK_FOOD.FOOD_NO DESC
+  		</select>
+  		  		
+ 		<!-- <insert id="insertFood"
+ 			INSERT
+ 			  INTO
+ 			  		SNACK_FOOD
+ 			VALUES
+ 					(
+ 					#{snackNo}
+ 				 ,	#{snackName}
+ 				 ,	#{price}
+ 				 ,	#{category}	
+ 					)
+ 		
+ 		</insert> -->
   </mapper>
 
   

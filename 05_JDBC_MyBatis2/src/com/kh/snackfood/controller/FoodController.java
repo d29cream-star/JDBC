@@ -1,12 +1,26 @@
 package com.kh.snackfood.controller;
 
+import java.util.List;
+import java.util.Map;
+
+import com.kh.snackfood.model.dto.SnackFoodDto;
 import com.kh.snackfood.model.service.FoodService;
 
 public class FoodController {
 
 	private FoodService fs = new FoodService();
 	
-	public void selectFoodList() {
-		fs.selectFoodList();
+	public List<SnackFoodDto> selectFoodList() {
+		return fs.selectFoodList();
+	}
+	
+	public List<SnackFoodDto> selectByCondition(Map<String, String> arguments){
+		return fs.selectByCondition(arguments);
+	}
+	
+	
+	public int insertFood(Long num, String name, Integer price, String catagory) {
+		SnackFoodDto sf = new SnackFoodDto(num, name, price, catagory);
+		return fs.insertFood(sf);
 	}
 }

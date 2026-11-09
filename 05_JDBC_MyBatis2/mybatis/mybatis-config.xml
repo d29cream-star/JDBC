@@ -9,11 +9,6 @@
 <setting name="mapUnderscoreToCamelCase" value="true" />
 </settings>
 
-<typeAliases>
-<typeAlias type="com.kh.plant.model.dto.HousePlantDto" alias="plant" />
-
-</typeAliases>
-
 	<environments default="development">
 		<environment id="development">
 		<transactionManager type="MANAGED"/>
@@ -31,7 +26,7 @@
 
 <mappers>
 
-<mapper resource="plant-mapper.xml" />
+<mapper resource="food-mapper.xml" />
 
 </mappers>
 

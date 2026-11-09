@@ -1,6 +1,25 @@
 package com.kh.snackfood.model.dao;
 
+import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.session.SqlSession;
+
+import com.kh.snackfood.model.dto.SnackFoodDto;
+
 public class FoodDao {
 
+	public List<SnackFoodDto> selectFoodList(SqlSession session){
+		return session.selectList("foodMapper.selectFoodList");
 	
+	}
+	
+	public List<SnackFoodDto> selectByCondition(SqlSession session, Map<String, String> arguments){
+		return session.selectList("foodMapper.selectByCondition", arguments);
+	}
+	
+	
+	public int insertFood(SqlSession session, SnackFoodDto sf) {
+		return session.insert("foodMapper.insertFood", sf);
+	}
 }
