@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="bookMapper">
+  <select id="selectAll"
+  		  resultType="book">
+  		  SELECT
+  		  		 ISBN
+  		  	   , BOOK_NAME
+  		  	   , AUTHER
+  		  	   , PRICE
+  		  	   , PUBLISEHR
+  		  	   , CATEGORY
+  		  	   , CREATE_DATE
+  		    FROM
+  		    	 BOOKS  
+  </select>
+  <insert id="insertBook"
+  		  parameterType="book">
+ 		  INSERT
+ 		    INTO
+ 		         BOOOKS
+ 		  VALUES
+ 		         (
+ 		         
+ 		         
+ 		         ) 
+  
+  
+  
+  </insert>
+  
+  
+  </mapper>
